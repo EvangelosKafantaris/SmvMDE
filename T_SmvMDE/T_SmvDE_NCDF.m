@@ -33,18 +33,15 @@ function [Out_mvDE, npdf]=T_SmvDE_NCDF(X,m,c,stau,designated_signal,threshold)
 %
 % Hamed Azami and Javier Escudero
 % hmd.azami@gmail.com and javier.escudero@ed.ac.uk
-%
-%  10-Sep-19
 
 % If the current script is utilized please remember to reference the
 % publication that introduced these novel variations:
 
-% [1]
-
+% [1] E. Kafantaris, T. -Y. M. Lo and J. Escudero, "Stratified Multivariate Multiscale Dispersion Entropy for Physiological Signal Analysis," 
+% in IEEE Transactions on Biomedical Engineering, vol. 70, no. 3, pp. 1024-1035, March 2023, doi: 10.1109/TBME.2022.3207582.
 
 % Evangelos Kafantaris and Javier Escudero
 % evangelos.kafantaris@ed.ac.uk and javier.escudero@ed.ac.uk
-%  6-April-2021
 
 %% Step 1: Normalization using NCDF and Formulation of "classified" series
 CH=size(X,1); % number of channels

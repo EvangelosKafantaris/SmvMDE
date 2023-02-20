@@ -34,18 +34,17 @@ function [Out_mvDE, npdf]=T_SmvDE_NCDF_ms(X,m,c,mu,sigma,stau,designated_signal,
 %
 % Hamed Azami and Javier Escudero
 % hmd.azami@gmail.com and javier.escudero@ed.ac.uk
-%
-%  10-Sep-19
 
 % If the current script is utilized please remember to reference the
 % publication that introduced these novel variations:
 
-% [1]
+% [1] E. Kafantaris, T. -Y. M. Lo and J. Escudero, "Stratified Multivariate Multiscale Dispersion Entropy for Physiological Signal Analysis," 
+% in IEEE Transactions on Biomedical Engineering, vol. 70, no. 3, pp. 1024-1035, March 2023, doi: 10.1109/TBME.2022.3207582.
 
 
 % Evangelos Kafantaris and Javier Escudero
 % evangelos.kafantaris@ed.ac.uk and javier.escudero@ed.ac.uk
-%  6-April-2021
+
 %% Step 1: Normalization using NCDF and Formulation of "classified" series
 CH=size(X,1); %number of channels
 N=size(X,2); % Length of each signal
@@ -81,10 +80,10 @@ S_M=sum(M); % calculation of m * number of channels
 y=[]; % empty array to store the multivariate embedded vectors 
 
 for j_embd=1:CH % we scan through each channel
-    for i_embd=1:N-m+1 % total number of multivariate embedded vectors
+    for i_embd=1:N-((m-1)*stau) % total number of multivariate embedded vectors
         
         % (A) Initially partial embedded vectors are produced per channel
-        temp1(i_embd,:)=X(j_embd,i_embd:tau(j_embd):i_embd+M(j_embd)-1);
+        temp1(i_embd,:)=X(j_embd,i_embd:tau(j_embd):i_embd+(M(j_embd)-1)*tau(j_embd));
         % Explanation: formulate part of the embedding vector starting from the current
         % embedding index, use a time delay step associated with each channel
         % build up to the number of embedded samples per channel
@@ -183,9 +182,9 @@ end
 [rows_aa_trimmed, ~] = size(aa_trimmed); % retrieve dimensions
 
 
-pv=zeros(rows_aa_trimmed,N-m+1); % array to store dispersion patterns
+pv=zeros(rows_aa_trimmed,N-((m-1)*stau)); % array to store dispersion patterns
 % corresponding to each accesing combination (rows_aa_trimmed)
-% for each embedded vector (N-m+1)
+% for each embedded vector (N-((m-1)*stau))
 
 %%  Step 5: Allocation of accessed sample combinations to dispersion patterns
 for i_pv=1:rows_aa_trimmed 
@@ -202,7 +201,7 @@ for i=1:pattern_num
 end
 
 
-npdf=pdf/((N-m+1)*rows_aa_trimmed); % normalize the frequency array to obtain probability density function.
+npdf=pdf/((N-((m-1)*stau))*rows_aa_trimmed); % normalize the frequency array to obtain probability density function.
 
 % Code for alternative calculation of normalized npdf:
 % npdf2=pdf/sum(pdf);
